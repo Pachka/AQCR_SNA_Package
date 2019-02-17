@@ -1,0 +1,15 @@
+Package: Animalmobility
+Title: Analysis of animal mobility
+Version: 0.0.0.1
+Authors@R: person(given = "Pachka", family = "Hammami", role = c("aut", "cre"), email = "pachka.hammami@cirad.fr")
+Description: What the package does (one paragraph).
+Imports: graphics, igraph, ggplot2, plotly, rworldmap 
+Enhances: sp
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1

@@ -1,0 +1,93 @@
+---
+title: "How to use the package?"
+author: "Pachka Hammami"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to use the package?}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = TRUE
+)
+```
+
+## Installer les packages necessaires
+
+```{r, eval=FALSE}
+install.packages(c("graphics", "igraph", "ggplot2", "plotly", "rworldmap"))
+```
+
+### Installer le Package Animalmobility en selectionnant le fichier Animalmobility_0.0.0.1.tar.gz
+
+```{r, eval=FALSE}
+install.packages(file.choose(), repos = NULL, type = "source")
+
+library("Animalmobility")
+```
+
+```{r}
+library("Animalmobility","rworldmap")
+df <- rawdata
+```
+
+## Importez les donnees
+Selectionnez votre fichier avec les Donnees Origine-
+Ce fichier, au format csv, doit contenir AU MOINS 8 colonnes portant les noms suivants :
+ORIGINE_NOM       ORIGINE_PAYS       ORIGINE_LONGITUDE_X       ORIGINE_LATITUDE_Y
+DESTINATION_NOM   DESTINATION_PAYS   DESTINATION_LONGITUDE_X   DESTINATION_LATITUDE_Y
+
+```{r, eval=FALSE}
+df <- impcheckdata()
+```
+
+## Definir le nom de votre pays
+
+Inscrivez le nom de votre pays entre guillemets, en majuscule et sans accent.
+
+```{r}
+mon_pays <- "TUNISIE"
+```
+
+## Analyse de la mobilite
+
+### Etude de la mobilité internationale
+
+```{r}
+Reseau_Intro <- mobinternat(df, mon_pays)
+param_sna_Intro <- paramSNA(Reseau_Intro, df, mon_pays)
+graphSNA(param_sna_Intro)
+#>mobilitymap(param_sna_Intro, y = "indegree")
+```
+
+### Etude de la mobilité nationale
+
+```{r}
+Reseau_Expo <- mobnation(df, mon_pays)
+param_sna_Expo <- paramSNA(Reseau_Expo, df, mon_pays)
+graphSNA(param_sna_Expo)
+#>mobilitymap(param_sna_Expo, y = "degree")
+```
+
+## Sauvegarder vos resultats 
+
+Définir l'emplacement où vous voulez sauvegarder vos données
+
+Attention les \\ windows doivent etre inverses sous R en / soit doubles \\\\
+
+```{r, eval = FALSE}
+setwd("D:/AQCR/Data")
+```
+
+### Sauvegardez vos fichiers au format csv. La date du jour apparaitra dans le nom du fichier : sna_LA_DATE.csv
+
+```{r, eval = FALSE}
+write.table(param_sna_Intro,file=paste0("sna_Intro_",Sys.Date( ),".csv"), sep = ",",  row.names = F)
+write.table(param_sna_Expo,file=paste0("sna_Expo_",Sys.Date( ),".csv"), sep = ",",  row.names = F)
+```
+
